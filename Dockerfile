@@ -11,7 +11,7 @@ RUN apk add --update --no-cache --virtual .deps g++ make autoconf automake libto
   apk add --no-cache openssl-dev && \
   tar -xf SoftHSM-hashingPatch.tar.gz && \
   sh ./autogen.sh && \
-  ./configure --with-objectstore-backend-db && \
+  ./configure && \
   make && make install && \
   rm -rvf /usr/src/softhsm && \
   apk del --purge -r .deps
