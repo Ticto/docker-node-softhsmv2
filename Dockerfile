@@ -1,4 +1,4 @@
-FROM node:7.2.1-alpine
+FROM node:8.4.0-alpine
 MAINTAINER Ticto 'development@ticto.com'
 
 RUN mkdir -p /usr/src/softhsm
