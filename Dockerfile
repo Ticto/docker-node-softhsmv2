@@ -1,4 +1,4 @@
-FROM node:8.4.0-alpine
+FROM node:8.10.0-alpine
 MAINTAINER Ticto 'development@ticto.com'
 
 RUN mkdir -p /usr/src/softhsm
@@ -6,9 +6,9 @@ WORKDIR /usr/src/softhsm
 
 COPY SoftHSM-hashingPatch.tar.gz ./
 # Compile & Install
-RUN apk add --update --no-cache sqlite sqlite-dev rsyslog
-RUN apk add --update --no-cache --virtual .deps g++ make autoconf automake libtool && \
-  apk add --no-cache openssl-dev && \
+RUN apk add --repository http://nl.alpinelinux.org/alpine/v3.6/main --update --no-cache sqlite sqlite-dev rsyslog
+RUN apk add --repository http://nl.alpinelinux.org/alpine/v3.6/main --update --no-cache --virtual .deps g++ make autoconf automake libtool && \
+  apk add --repository http://nl.alpinelinux.org/alpine/v3.6/main --no-cache openssl-dev && \
   tar -xf SoftHSM-hashingPatch.tar.gz && \
   sh ./autogen.sh && \
   ./configure && \
