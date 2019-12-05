@@ -1,11 +1,10 @@
-ARG NODE_VERSION=10.16.0
-FROM node:${NODE_VERSION}-alpine as build
+FROM node:10.17.0-alpine3.10 as build
 
 RUN mkdir -p /usr/src/softhsm
 WORKDIR /usr/src/softhsm
 
 ## Install Required Dependencies
-RUN apk add --repository http://nl.alpinelinux.org/alpine/v3.6/main --update --no-cache git sqlite sqlite-dev rsyslog g++ make autoconf automake libtool openssl-dev
+RUN apk add --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/main --update --no-cache git sqlite sqlite-dev rsyslog g++ make autoconf automake libtool openssl-dev
 
 # Fetch SoftHSM Modified Code
 ARG SOFTHSM_GIT_REPO=https://github.com/Ticto/SoftHSMv2.git
@@ -22,9 +21,8 @@ RUN git init && \
 ## Compile & Install
 RUN sh ./autogen.sh && ./configure --disable-gost && make && make install
 
-
 ## RUNTIME
-FROM node:${NODE_VERSION}-alpine
+FROM node:10.17.0-alpine3.10
 
 COPY --from=build /usr/local/lib/softhsm /usr/local/lib/softhsm
 COPY --from=build /usr/local/bin/softhsm2* /usr/local/bin/
@@ -32,7 +30,7 @@ COPY --from=build /var/lib/softhsm/tokens /var/lib/softhsm/tokens
 
 COPY init_softhsm.sh ./
 
-RUN apk add --repository http://nl.alpinelinux.org/alpine/v3.6/main --update --no-cache openssl-dev openssl
+RUN apk add --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/main --update --no-cache openssl-dev openssl
 
 ENV SOFTHSM2_CONF /etc/softhsm2.conf
 ADD softhsm2.conf /etc/softhsm2.conf
