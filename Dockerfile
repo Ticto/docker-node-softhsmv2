@@ -28,12 +28,11 @@ COPY --from=build /usr/local/lib/softhsm /usr/local/lib/softhsm
 COPY --from=build /usr/local/bin/softhsm2* /usr/local/bin/
 COPY --from=build /var/lib/softhsm/tokens /var/lib/softhsm/tokens
 
-COPY init_softhsm.sh ./
-
 RUN apk add --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/main --update --no-cache openssl-dev openssl
 
 ENV SOFTHSM2_CONF /etc/softhsm2.conf
 ADD softhsm2.conf /etc/softhsm2.conf
 
 # Initiate SoftHSM Default if no other one is mounted, can be used for testing
-ENTRYPOINT ["./init_softhsm.sh"]
+COPY init_softhsm.sh /etc/
+ENTRYPOINT ["/etc/init_softhsm.sh"]
