@@ -30,7 +30,7 @@ jobs:
           push: ${{ github.ref == 'refs/heads/master' && 'true' || 'false' }}
           tags: ghcr.io/${{ github.event.repository.name }}:latest
           build-args: |
-            NODE_VERSION="${{ matrix.NODE_VERSION }}"
+            NODE_VERSION=${{ matrix.NODE_VERSION }}
       - name: Image digest
         run: echo ${{ steps.docker_build_server.outputs.digest }}
 
