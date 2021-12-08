@@ -8,17 +8,8 @@ WORKDIR /usr/src/softhsm
 ## Install Required Dependencies
 RUN apk add --update --no-cache git sqlite sqlite-dev rsyslog g++ make autoconf automake libtool openssl-dev
 
-# Fetch SoftHSM Modified Code
-ARG SOFTHSM_GIT_REPO=https://github.com/Ticto/SoftHSMv2.git
-
-# SoftHSM v2.2.0
-ARG SOFTHSM_COMMIT_HASH=4c167c6f6ca8a5e9fdd65383e988993c248d837d
-
-## Fetch Correct SoftHSM Code Commit
-RUN git init && \
-  git remote add origin $SOFTHSM_GIT_REPO && \
-  git pull origin ecdh1-derive-kdf-hashing && \
-  git checkout $SOFTHSM_COMMIT_HASH
+COPY SoftHSM-hashingPatch.tar.gz ./
+RUN tar -xf SoftHSM-hashingPatch.tar.gz
 
 ## Compile & Install
 RUN sh ./autogen.sh && ./configure --disable-gost && make && make install
