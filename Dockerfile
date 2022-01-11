@@ -26,6 +26,3 @@ RUN apk add --update --no-cache openssl-dev openssl
 ENV SOFTHSM2_CONF /etc/softhsm2.conf
 ADD softhsm2.conf /etc/softhsm2.conf
 
-# Initiate SoftHSM Default if no other one is mounted, can be used for testing
-COPY init_softhsm.sh /etc/
-ENTRYPOINT ["/etc/init_softhsm.sh"]
