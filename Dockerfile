@@ -1,6 +1,6 @@
 ARG NODE_VERSION=16
 
-FROM node:${NODE_VERSION}-alpine as build
+FROM node:${NODE_VERSION}-alpine3.15 as build
 
 RUN mkdir -p /usr/src/softhsm
 WORKDIR /usr/src/softhsm
