@@ -1,6 +1,6 @@
 ARG NODE_VERSION=16
 
-FROM node:${NODE_VERSION}-alpine3.15 as build
+FROM node:${NODE_VERSION}-alpine3.16 as build
 
 RUN mkdir -p /usr/src/softhsm
 WORKDIR /usr/src/softhsm
@@ -15,7 +15,7 @@ RUN tar -xf SoftHSM-hashingPatch.tar.gz
 RUN sh ./autogen.sh && ./configure --disable-gost && make && make install
 
 ## RUNTIME
-FROM node:${NODE_VERSION}-alpine
+FROM node:${NODE_VERSION}-alpine3.16
 
 COPY --from=build /usr/local/lib/softhsm /usr/local/lib/softhsm
 COPY --from=build /usr/local/bin/softhsm2* /usr/local/bin/
